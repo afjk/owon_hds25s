@@ -8,6 +8,7 @@ tmp/
 /capture-*.json
 /research/
 /snapshots/
+/release-assets/
 
 # Dependencies and build products (also covered by tauri-app/.gitignore).
 node_modules/

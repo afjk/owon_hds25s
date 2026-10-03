@@ -240,6 +240,12 @@ WindowsではMicrosoft C++ Build Tools、Rust、Node、WebView2等のTauri前提
 Windows側で `npm run tauri -- build --bundles nsis` を実行する想定です。
 USBドライバーの適合確認が別途必要です。公式ドライバーを自動置換する処理はありません。
 
+## GitHub Actionsによるリリース
+
+GitHub Releaseを公開すると、MacのApple Silicon／Intel向けDMGとWindows x64向けNSISインストーラーを
+ビルドし、全job成功後にチェックサム付きで添付します。手動実行はビルドの検証のみで、Releaseを作りません。
+[リリース手順と配布上の注意](docs/releases.md)を参照してください。
+
 ## 一次資料
 
 - [Tauri アーキテクチャ](https://v2.tauri.app/concept/architecture/)

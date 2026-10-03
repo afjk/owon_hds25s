@@ -1,0 +1,141 @@
+name: Release builds
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-builds-${{ github.event.release.tag_name || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Apple Silicon
+            os: macos-15
+            target: aarch64-apple-darwin
+            bundles: app,dmg
+          - name: macOS Intel
+            os: macos-15-intel
+            target: x86_64-apple-darwin
+            bundles: app,dmg
+          - name: Windows x64
+            os: windows-2022
+            target: x86_64-pc-windows-msvc
+            bundles: nsis
+    defaults:
+      run:
+        working-directory: tauri-app
+        shell: bash
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name || '' }}
+      BUILD_TARGET: ${{ matrix.target }}
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Check out the release tag or selected branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: tauri-app/package-lock.json
+
+      - name: Validate versions and release tooling
+        run: |
+          node ../.github/scripts/release.mjs check-version
+          node --test ../.github/scripts/release.test.mjs
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d # stable action, pinned toolchain
+        with:
+          toolchain: "1.91.1"
+          targets: ${{ matrix.target }}
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        with:
+          key: ${{ matrix.target }}
+          workspaces: |
+            tauri-app/crates/owon-core -> target
+            tauri-app/src-tauri -> target
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Test frontend
+        run: npm test
+
+      - name: Test USB-independent Rust code
+        run: |
+          cargo test --manifest-path crates/owon-core/Cargo.toml --release --target "$BUILD_TARGET" --locked
+          cargo test --manifest-path src-tauri/Cargo.toml --release --target "$BUILD_TARGET" --locked
+
+      - name: Build platform installer
+        uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1
+        with:
+          projectPath: tauri-app
+          args: --ci --target ${{ matrix.target }} --bundles ${{ matrix.bundles }} -- --locked
+          uploadUpdaterJson: false
+
+      - name: Verify macOS ad-hoc signature
+        if: runner.os == 'macOS'
+        run: codesign --verify --deep --strict "src-tauri/target/$BUILD_TARGET/release/bundle/macos/OWON Scope.app"
+
+      - name: Stage installer and SHA-256 checksum
+        run: node ../.github/scripts/release.mjs stage
+
+      - name: Store build artifacts
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: owon-scope-${{ matrix.target }}
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+  attach:
+    name: Attach installers to published release
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out release validation tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          persist-credentials: false
+
+      - name: Download all successful builds
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          pattern: owon-scope-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Validate complete asset set and checksums
+        run: node .github/scripts/release.mjs verify
+
+      - name: Attach to the existing release
+        run: gh release upload "$RELEASE_TAG" release-assets/* --repo "$GITHUB_REPOSITORY" --clobber

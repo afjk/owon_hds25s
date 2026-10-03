@@ -24,6 +24,8 @@ CH1／CH2の用途やセンサー種別は固定しません。
 ## ビルドと起動
 
 このリポジトリにはTauri版のソースコードを収録しています。
+GitHub Release公開時には、ActionsがMac（Apple Silicon／Intel）のDMGとWindows x64の
+インストーラーをビルドして添付します。[リリース手順・署名上の注意](tauri-app/docs/releases.md)を参照してください。
 Rust 1.90以上、Node.js、macOSではXcode Command Line Toolsを準備し、次を実行します。
 
 ```sh
