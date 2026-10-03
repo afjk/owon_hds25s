@@ -2,7 +2,8 @@
 
 OWON HDS25S（HDS200シリーズ）のUSB波形取得・表示・本体操作を行うデスクトップアプリ。
 **Tauri 2 + React/TypeScript + Rust、バージョン0.4.1** です。
-macOS / Apple Siliconで実機確認しています。Windowsビルド・USB接続は未検証です。
+macOS / Apple Siliconで実機確認しています。Mac（Apple Silicon／Intel）とWindows x64の
+ビルドはGitHub Actionsで確認済みです。Windows／Intel Macでの実機接続は未検証です。
 OWON公式アプリではなく、完全互換版でもありません。
 
 CH1／CH2の用途やセンサー種別は固定しません。
@@ -33,8 +34,10 @@ git clone https://github.com/afjk/owon_hds25s.git
 cd owon_hds25s/tauri-app
 npm ci
 npm run tauri -- dev
-# 配布用アプリをローカルでビルドする場合
+# macOSのアプリをローカルでビルドする場合
 npm run tauri -- build
+# Windowsのインストーラーをビルドする場合
+npm run tauri -- build --bundles nsis
 ```
 
 Macではビルド後にプロジェクト直下の **OWON Scope.command** から起動できます。
@@ -62,9 +65,11 @@ npm test
 npm run build
 cargo test --manifest-path crates/owon-core/Cargo.toml --locked
 cargo test --manifest-path src-tauri/Cargo.toml --release --locked
+node --test ../.github/scripts/release.test.mjs
 ```
 
 USBなしのテストはRust core 58件、診断CLI 6件、native Rust 4件、TypeScript 20件の計88件です。
+別途、リリース用スクリプトの4テストでバージョン・タグ・成果物・チェックサムを検証します。
 実機の取得データ・機器固有の一時診断ツール・バックアップ・第三者配布物は公開対象外です。
 テストには実機の波形やシリアル番号を含まない合成データを使います。
 テストの合格は実機接続・測定精度・長時間安定性を保証するものではありません。

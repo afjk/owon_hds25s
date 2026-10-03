@@ -4,6 +4,9 @@
 通常のpush、タグのpush、Releaseの下書き保存だけでは起動しません。
 3種類のビルドとテストがすべて成功した後、公開したReleaseへ添付します。
 Releaseのタイトルや本文は変更せず、別のReleaseも作成しません。
+公開後に添付する方式なので、Release immutability（リリースの不変性）を有効にすると
+添付できなくなります。現在このリポジトリでは無効です。有効化する場合は、
+公開前に下書きへ成果物を添付する方式へworkflowを変更してください。
 
 ## 添付されるファイル
 
@@ -63,11 +66,21 @@ Windows／Intel Macでの実機接続・印刷は別途検証が必要です。
 workflowはNode.js 22・Rust 1.91.1とlockfileを使い、利用するActionsはコミットSHAに固定しています。
 ビルドjobは読取権限だけを持ち、Releaseへの書込権限は添付jobだけに付与しています。
 
+## 初回検証
+
+2026-10-04、ソースコミット`e26f175`に対する[手動実行](https://github.com/afjk/owon_hds25s/actions/runs/37161019518)で
+MacのApple Silicon／IntelとWindows x64の3jobがすべて成功しました。
+各環境の自動テスト、Macのad-hoc署名検証、DMG／NSISインストーラーの生成を確認しています。
+3種類の成果物をダウンロードし、チェックサムと添付用の6ファイル構成も検証しました。
+手動検証なのでRelease添付jobは意図どおりスキップされ、Release・タグは作成していません。
+公開Releaseへの実際の添付は、最初のRelease公開時に確認する項目です。
+
 ## 一次資料
 
 - [TauriのGitHub Actionsガイド](https://v2.tauri.app/distribute/pipelines/github/)
 - [Tauri GitHub Action](https://github.com/tauri-apps/tauri-action)
 - [GitHub Releaseイベント](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release)
+- [GitHubのImmutable releases](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases)
 - [TauriのMac署名・公証](https://v2.tauri.app/distribute/sign/macos/)
 - [TauriのWindows署名](https://v2.tauri.app/distribute/sign/windows/)
 - [TauriのWindowsインストーラー・WebView2](https://v2.tauri.app/distribute/windows-installer/)

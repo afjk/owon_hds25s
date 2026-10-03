@@ -1,6 +1,6 @@
 # OWON Scope — Tauri版 0.4.1
 
-HDS25S用のMacデスクトップアプリ。Tauri 2 + React/TypeScript + Rust。
+HDS25S用のMac／Windows向けデスクトップアプリ。Tauri 2 + React/TypeScript + Rust。
 公式PCソフトの機能を順に再実装する土台であり、**公式ソフトとの完全互換版ではありません**。
 公開リポジトリはソースコードのみです。ビルド済みアプリ、ローカルのバックアップ
 （`snapshots/`）、実機の取得・検証記録や第三者配布物（`research/`・`tmp/`）は含みません。
@@ -235,7 +235,8 @@ SingleではSTOPを照会し、停止中の2回のCH1／CH2ペイロードが一
 
 ## Windows
 
-ソース構成はMac/Windows共用を前提にしていますが、Windowsビルドと実機接続は未検証です。
+GitHub ActionsのWindows x64環境で、自動テストとNSISインストーラーのビルドを確認しました。
+Windows実機での起動・USB接続・印刷は未検証です。
 WindowsではMicrosoft C++ Build Tools、Rust、Node、WebView2等のTauri前提環境が必要です。
 Windows側で `npm run tauri -- build --bundles nsis` を実行する想定です。
 USBドライバーの適合確認が別途必要です。公式ドライバーを自動置換する処理はありません。
