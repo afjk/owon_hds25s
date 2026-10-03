@@ -5,7 +5,7 @@
   "status_before": "STOP",
   "status_after": "STOP",
   "consistency": "manual_stop_observed; no acquisition_id_available",
-  "fixture_note": "Synthetic legacy Python-format compatibility fixture; not a hardware capture.",
+  "fixture_note": "Synthetic legacy STOP-format compatibility fixture; not a hardware capture.",
   "header": {
     "TIMEBASE": {
       "SCALE": "1.0ms",

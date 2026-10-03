@@ -282,13 +282,10 @@ pub fn save(path: &Path, record: Value) -> Result<()> {
 mod tests {
     use super::*;
     fn fixture() -> Value {
-        serde_json::from_str(include_str!(
-            "../tests/fixtures/synthetic-python-capture.json"
-        ))
-        .unwrap()
+        serde_json::from_str(include_str!("../tests/fixtures/legacy-stop-capture.json")).unwrap()
     }
     #[test]
-    fn loads_existing_python_capture() {
+    fn loads_legacy_stopped_capture() {
         let f = from_record(fixture()).unwrap();
         assert_eq!(f.values["CH1"].len(), 600);
         assert_eq!(f.values["CH1"][0], 89);

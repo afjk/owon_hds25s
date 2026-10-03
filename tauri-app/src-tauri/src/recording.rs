@@ -158,7 +158,7 @@ mod tests {
         std::fs::create_dir(&folder).unwrap();
         let mut f = waveform::from_record(
             serde_json::from_str(include_str!(
-                "../../crates/owon-core/tests/fixtures/synthetic-python-capture.json"
+                "../../crates/owon-core/tests/fixtures/legacy-stop-capture.json"
             ))
             .unwrap(),
         )

@@ -86,7 +86,7 @@ impl BulkTransport {
         })?;
         handle
             .claim_interface(interface)
-            .map_err(|e| format!("USBを使用できません: {e}（Python版などを切断してください）"))?;
+            .map_err(|e| format!("USBを使用できません: {e}（他の接続アプリを切断してください）"))?;
         // Never reset, change USB configuration, or detach an OS driver.
         Ok(Self {
             handle,

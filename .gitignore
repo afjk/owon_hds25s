@@ -32,3 +32,16 @@ build/
 # Preserve these locally; public tests use a synthetic fixture instead.
 /tauri-app/crates/owon-core/tests/fixtures/python-capture.json
 /tauri-app/crates/owon-core/src/bin/generator_2khz.rs
+
+# Initial prototype: retained locally, not part of this repository.
+/OWON HDS25S.command
+/owon_probe.py
+/owon_protocol.py
+/owon_viewer.py
+/owon_waveform.py
+/owon_worker.py
+/requirements.txt
+/requirements-gui.txt
+/test_owon_protocol.py
+/test_owon_viewer.py
+/test_owon_waveform.py

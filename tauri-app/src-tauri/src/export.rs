@@ -98,7 +98,7 @@ mod tests {
     #[test]
     fn text_export_preserves_signed_values_and_selection() {
         let r = serde_json::from_str(include_str!(
-            "../../crates/owon-core/tests/fixtures/synthetic-python-capture.json"
+            "../../crates/owon-core/tests/fixtures/legacy-stop-capture.json"
         ))
         .unwrap();
         let bytes = table(r, "CH1", "txt").unwrap();
