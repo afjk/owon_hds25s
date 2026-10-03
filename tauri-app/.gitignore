@@ -1,0 +1,7 @@
+node_modules/
+dist/
+target/
+src-tauri/target/
+crates/owon-core/target/
+src-tauri/gen/
+build/

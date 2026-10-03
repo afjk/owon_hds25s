@@ -1,0 +1,6 @@
+{
+  "identifier": "main-local",
+  "description": "Local oscilloscope UI only; no shell or network plugin",
+  "windows": ["main"],
+  "permissions": ["core:default", "dialog:allow-open", "dialog:allow-save"]
+}

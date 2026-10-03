@@ -1,0 +1,4 @@
+-r requirements.txt
+PySide6-Essentials==6.11.2
+pyqtgraph==0.14.0
+numpy==2.5.3

@@ -1,0 +1,34 @@
+.venv/
+__pycache__/
+captures/
+tmp/
+.DS_Store
+
+# Local recordings, research downloads, verification logs, and backups.
+/capture-*.json
+/research/
+/snapshots/
+
+# Dependencies and build products (also covered by tauri-app/.gitignore).
+node_modules/
+dist/
+target/
+build/
+*.app/
+*.dmg
+
+# Local credentials and editor state.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.aws/
+.codex/
+.agents/
+.idea/
+.vscode/
+
+# Preserve these locally; public tests use a synthetic fixture instead.
+/tauri-app/crates/owon-core/tests/fixtures/python-capture.json
+/tauri-app/crates/owon-core/src/bin/generator_2khz.rs
