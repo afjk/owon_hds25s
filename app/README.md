@@ -140,7 +140,7 @@ Rust 1.90以上、Node、macOSのXcode Command Line Toolsが必要です。
 `package-lock.json` と各 `Cargo.lock` を保存しています。
 
 ```sh
-cd tauri-app
+cd app
 npm ci
 npm run tauri -- dev
 npm run tauri -- build

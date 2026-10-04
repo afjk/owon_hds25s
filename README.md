@@ -26,12 +26,12 @@ CH1／CH2の用途やセンサー種別は固定しません。
 
 このリポジトリにはTauri版のソースコードを収録しています。
 GitHub Release公開時には、ActionsがMac（Apple Silicon／Intel）のDMGとWindows x64の
-インストーラーをビルドして添付します。[リリース手順・署名上の注意](tauri-app/docs/releases.md)を参照してください。
+インストーラーをビルドして添付します。[リリース手順・署名上の注意](app/docs/releases.md)を参照してください。
 Rust 1.90以上、Node.js、macOSではXcode Command Line Toolsを準備し、次を実行します。
 
 ```sh
 git clone https://github.com/afjk/owon_hds25s.git
-cd owon_hds25s/tauri-app
+cd owon_hds25s/app
 npm ci
 npm run tauri -- dev
 # macOSのアプリをローカルでビルドする場合
@@ -41,8 +41,8 @@ npm run tauri -- build --bundles nsis
 ```
 
 Macではビルド後にプロジェクト直下の **OWON Scope.command** から起動できます。
-詳しい操作・安全制限は [アプリREADME](tauri-app/README.md)、
-本体操作APIは [API仕様書](tauri-app/docs/device-api.md) を参照してください。
+詳しい操作・安全制限は [アプリREADME](app/README.md)、
+本体操作APIは [API仕様書](app/docs/device-api.md) を参照してください。
 
 ## 本体の接続
 
@@ -60,7 +60,7 @@ HDS25S / V12.1.0でVID:PID `5345:1234`、Bulk OUT `0x01`・IN `0x81`、
 ## 検証
 
 ```sh
-cd tauri-app
+cd app
 npm test
 npm run build
 cargo test --manifest-path crates/owon-core/Cargo.toml --locked

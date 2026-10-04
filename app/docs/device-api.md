@@ -403,7 +403,7 @@ GEN OUTの生記録はローカル保管（公開対象外）です。応答時�
 専用CLI：[readonly_probe.rs](../crates/owon-core/src/bin/readonly_probe.rs)。自由入力SCPIは受け付けず、以下3組の固定照会だけを実行します。接続された対象OWONがちょうど1台でなければ中止します。**アプリを切断してから実行し、終了後にアプリを再接続してください。**
 
 ```sh
-# tauri-appディレクトリで実行。出力先フォルダーを作り、ファイル名は新規にする。
+# appディレクトリで実行。出力先フォルダーを作り、ファイル名は新規にする。
 mkdir -p ../research/hardware
 cargo run --manifest-path crates/owon-core/Cargo.toml --bin readonly_probe -- generator ../research/hardware/generator-new.json
 cargo run --manifest-path crates/owon-core/Cargo.toml --bin readonly_probe -- trigger ../research/hardware/trigger-new.json

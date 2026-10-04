@@ -10,7 +10,7 @@ tmp/
 /snapshots/
 /release-assets/
 
-# Dependencies and build products (also covered by tauri-app/.gitignore).
+# Dependencies and build products (also covered by app/.gitignore).
 node_modules/
 dist/
 target/
@@ -31,8 +31,8 @@ build/
 .vscode/
 
 # Preserve these locally; public tests use a synthetic fixture instead.
-/tauri-app/crates/owon-core/tests/fixtures/python-capture.json
-/tauri-app/crates/owon-core/src/bin/generator_2khz.rs
+/app/crates/owon-core/tests/fixtures/python-capture.json
+/app/crates/owon-core/src/bin/generator_2khz.rs
 
 # Initial prototype: retained locally, not part of this repository.
 /OWON HDS25S.command

@@ -139,7 +139,7 @@ if (
   import.meta.url === pathToFileURL(resolve(process.argv[1])).href
 ) {
   const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
-  const project = join(root, "tauri-app");
+  const project = join(root, "app");
   const assets = join(root, "release-assets");
   const version = readVersion(project, process.env.RELEASE_TAG ?? "");
   switch (process.argv[2]) {

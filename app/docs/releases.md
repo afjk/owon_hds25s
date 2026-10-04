@@ -22,7 +22,7 @@ WebView2が未導入のWindowsでは、インストーラーが標準のWebView2
 
 1. リリースするコミットを`main`へpushします。最初のReleaseでは、このworkflowを含むコミットを選びます。
 2. アプリのバージョンが一致していることを確認します。
-   `tauri-app/package.json`、`package-lock.json`（先頭とルートpackage）、
+   `app/package.json`、`package-lock.json`（先頭とルートpackage）、
    `src-tauri/tauri.conf.json`、`src-tauri/Cargo.toml`が対象です。
    次回バージョンを変更するときは、`src-tauri/Cargo.lock`のアプリ自身のバージョンも更新します。
 3. GitHubの **Releases → Draft a new release** を開きます。

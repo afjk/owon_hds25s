@@ -35,7 +35,7 @@ jobs:
             bundles: nsis
     defaults:
       run:
-        working-directory: tauri-app
+        working-directory: app
         shell: bash
     env:
       RELEASE_TAG: ${{ github.event.release.tag_name || '' }}
@@ -53,7 +53,7 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-          cache-dependency-path: tauri-app/package-lock.json
+          cache-dependency-path: app/package-lock.json
 
       - name: Validate versions and release tooling
         run: |
@@ -71,8 +71,8 @@ jobs:
         with:
           key: ${{ matrix.target }}
           workspaces: |
-            tauri-app/crates/owon-core -> target
-            tauri-app/src-tauri -> target
+            app/crates/owon-core -> target
+            app/src-tauri -> target
 
       - name: Install frontend dependencies
         run: npm ci
@@ -88,7 +88,7 @@ jobs:
       - name: Build platform installer
         uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1
         with:
-          projectPath: tauri-app
+          projectPath: app
           args: --ci --target ${{ matrix.target }} --bundles ${{ matrix.bundles }} -- --locked
           uploadUpdaterJson: false
 
